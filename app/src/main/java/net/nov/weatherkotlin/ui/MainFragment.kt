@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import net.nov.weatherkotlin.R
 
 import net.nov.weatherkotlin.databinding.MainFragmentBinding
+import net.nov.weatherkotlin.showSnackBar
 import net.nov.weatherkotlin.ui.adapters.MainFragmentAdapter
 import net.nov.weatherkotlin.ui.details.DetailsFragment
 
@@ -58,6 +59,8 @@ class MainFragment : Fragment() {
         isDataSetRus = !isDataSetRus
     }
 
+
+
     private fun renderData(appState: AppState) = with(binding) {
         when (appState) {
             is AppState.Success -> {
@@ -85,10 +88,10 @@ class MainFragment : Fragment() {
             }
             is AppState.Error -> {
                 mainFragmentLoadingLayout.visibility = View.GONE
-                Snackbar
-                    .make(binding.mainFragmentFAB, getString(R.string.error), Snackbar.LENGTH_INDEFINITE)
-                    .setAction(getString(R.string.reload)) { viewModel.getWeatherFromLocalSourceRus() }
-                    .show()
+
+                mainFragmentFAB.showSnackBar(getString(R.string.error), getString(R.string.reload)) {
+                    viewModel.getWeatherFromLocalSourceRus()
+                }
             }
         }
     }

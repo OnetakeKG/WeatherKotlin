@@ -1,8 +1,12 @@
 package net.nov.weatherkotlin.ui
 
+import android.provider.Settings.Global.getString
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.*
+import com.google.android.material.snackbar.Snackbar
 import net.nov.weatherkotlin.AppState
+import net.nov.weatherkotlin.R
 import net.nov.weatherkotlin.repository.Repository
 
 class MainViewModel(private val repository: Repository) : ViewModel(), LifecycleObserver {
@@ -32,4 +36,8 @@ class MainViewModel(private val repository: Repository) : ViewModel(), Lifecycle
     private fun onViewStart() {
         Log.i("LifecycleEvent", "onStart")
     }
+
+
+
+
 }
