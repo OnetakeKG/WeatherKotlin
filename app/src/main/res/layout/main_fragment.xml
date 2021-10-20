@@ -25,13 +25,13 @@
         android:backgroundTint="@android:color/transparent"
         android:contentDescription="@string/change_cities_list"
         android:src="@drawable/ic_russia"
-        android:tint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="57dp" />
+        app:maxImageSize="57dp"
+        app:tint="@null" />
 
 
-
+    
 
     <FrameLayout
         android:id="@+id/mainFragmentLoadingLayout"

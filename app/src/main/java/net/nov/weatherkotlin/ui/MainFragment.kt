@@ -59,8 +59,6 @@ class MainFragment : Fragment() {
         isDataSetRus = !isDataSetRus
     }
 
-
-
     private fun renderData(appState: AppState) = with(binding) {
         when (appState) {
             is AppState.Success -> {

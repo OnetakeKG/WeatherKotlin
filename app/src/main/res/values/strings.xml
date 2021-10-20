@@ -14,4 +14,14 @@
 
     <string name="reload">Обновить</string>
 
+    <string name="error_happened">Произошла ошибка</string>
+
+    <string name="threads">Потоки</string>
+
+    <string name="calculate">Расчёт</string>
+
+    <string name="default_number">1</string>
+
+    <string name="in_main_thread">В главном потоке</string>
+
 </resources>

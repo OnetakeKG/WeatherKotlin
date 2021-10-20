@@ -36,8 +36,4 @@ class MainViewModel(private val repository: Repository) : ViewModel(), Lifecycle
     private fun onViewStart() {
         Log.i("LifecycleEvent", "onStart")
     }
-
-
-
-
 }
