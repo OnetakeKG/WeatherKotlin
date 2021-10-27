@@ -33,7 +33,7 @@
 
 
 
-        <receiver
+        <reeiver
             android:name=".receivers.MainBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
@@ -46,7 +46,7 @@
 
             </intent-filter>
 
-        </receiver>
+        </reeiver>
 
     </application>
 
