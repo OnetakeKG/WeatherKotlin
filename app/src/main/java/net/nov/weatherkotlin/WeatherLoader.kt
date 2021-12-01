@@ -32,7 +32,6 @@ object WeatherLoader {
                 } else {
                     getLines(bufferedReader)
                 }
-
                 return Gson().fromJson(lines, WeatherDTO::class.java)
             } catch (e: Exception) {
                 e.printStackTrace()

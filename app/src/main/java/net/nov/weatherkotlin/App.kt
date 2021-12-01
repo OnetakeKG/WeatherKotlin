@@ -8,9 +8,14 @@ import org.koin.core.context.GlobalContext.startKoin
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+        appInstance = this
         org.koin.core.context.startKoin {
             androidContext(this@App)
             modules(appModule)
         }
+    }
+
+    companion object {
+        lateinit var appInstance: App
     }
 }

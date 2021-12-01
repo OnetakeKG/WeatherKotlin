@@ -1,5 +1,6 @@
 package net.nov.weatherkotlin.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,44 +12,77 @@ import net.nov.weatherkotlin.entities.Weather
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import androidx.lifecycle.Observer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
 import net.nov.weatherkotlin.R
 
 import net.nov.weatherkotlin.databinding.MainFragmentBinding
 import net.nov.weatherkotlin.showSnackBar
 import net.nov.weatherkotlin.ui.adapters.MainFragmentAdapter
-import net.nov.weatherkotlin.ui.details.DetailsFragment
+
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 
-class MainFragment : Fragment() {
+@Suppress("NAME_SHADOWING")
+class MainFragment : Fragment(), CoroutineScope by MainScope() {
+    private lateinit var binding: MainFragmentBinding
     private val viewModel: MainViewModel by viewModel()
 
-    private var _binding: MainFragmentBinding? = null
-    private val binding get() = _binding!!
-
     private var adapter: MainFragmentAdapter? = null
-    private var isDataSetRus: Boolean = true
+    private var isDataSetRus = true
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = MainFragmentBinding.inflate(inflater, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = MainFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            mainFragmentRecyclerView.adapter = adapter
-            mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
-            viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
-            viewModel.getWeatherFromLocalSourceRus()
+        binding.mainFragmentRecyclerView.adapter = adapter
+        binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
+        viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
+        viewModel.getWeatherFromLocalSourceRus()
+
+        initDataSet()
+        loadDataSet()
+
+        /*Thread {
+            startCalculations(10)
+        }.start()
+
+        val handlerThread = HandlerThread("tag")
+        handlerThread.start()
+        val handler = Handler(handlerThread.looper)
+        handler.post {  }*/
+
+        /*launch {
+            delay(1000)
+            val job = async(Dispatchers.Default) {
+                startCalculations(10)
+            }
+            println(job.await())
+        }*/
+    }
+
+    private fun initDataSet() {
+        activity?.let {
+            isDataSetRus = activity
+                ?.getPreferences(Context.MODE_PRIVATE)
+                ?.getBoolean(dataSetKey, true) ?: true
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    private fun changeWeatherDataSet() = with(binding) {
+        isDataSetRus = !isDataSetRus
+        loadDataSet()
+        //val a = activity?.getSharedPreferences("ddssd", Context.MODE_PRIVATE)
     }
 
-    private fun changeWeatherDataSet() = with(binding) {
+    private fun loadDataSet() = with(binding) {
         if (isDataSetRus) {
             viewModel.getWeatherFromLocalSourceWorld()
             mainFragmentFAB.setImageResource(R.drawable.ic_earth)
@@ -56,13 +90,21 @@ class MainFragment : Fragment() {
             viewModel.getWeatherFromLocalSourceRus()
             mainFragmentFAB.setImageResource(R.drawable.ic_russia)
         }
-        isDataSetRus = !isDataSetRus
+        saveDataSetToDisk()
+    }
+
+    private fun saveDataSetToDisk() {
+        val editor = activity?.getPreferences(Context.MODE_PRIVATE)?.edit()
+        editor?.putBoolean(dataSetKey, isDataSetRus)
+        editor?.apply()
     }
 
     private fun renderData(appState: AppState) = with(binding) {
         when (appState) {
             is AppState.Success -> {
-                mainFragmentLoadingLayout.visibility = View.GONE
+                mainFragmentLoadingLayout.postDelayed({
+                    mainFragmentLoadingLayout.visibility = View.GONE
+                }, 500)
                 adapter = MainFragmentAdapter(object : OnItemViewClickListener {
                     override fun onItemViewClick(weather: Weather) {
                         val manager = activity?.supportFragmentManager
@@ -76,7 +118,8 @@ class MainFragment : Fragment() {
                                 .commitAllowingStateLoss()
                         }
                     }
-                }).apply {
+                }
+                ).apply {
                     setWeather(appState.weatherData)
                 }
                 mainFragmentRecyclerView.adapter = adapter
@@ -87,11 +130,20 @@ class MainFragment : Fragment() {
             is AppState.Error -> {
                 mainFragmentLoadingLayout.visibility = View.GONE
 
-                mainFragmentFAB.showSnackBar(getString(R.string.error), getString(R.string.reload)) {
-                    viewModel.getWeatherFromLocalSourceRus()
-                }
+
             }
         }
+    }
+
+    private fun startCalculations(seconds: Int): String {
+        val date = Date()
+        var diffInSec: Long
+        do {
+            val currentDate = Date()
+            val diffInMs: Long = currentDate.time - date.time
+            diffInSec = TimeUnit.MILLISECONDS.toSeconds(diffInMs)
+        } while (diffInSec < seconds)
+        return diffInSec.toString()
     }
 
     interface OnItemViewClickListener {
@@ -99,6 +151,7 @@ class MainFragment : Fragment() {
     }
 
     companion object {
+        private const val dataSetKey = "dataSetKey"
         fun newInstance() = MainFragment()
     }
 }

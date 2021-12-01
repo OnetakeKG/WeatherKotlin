@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -27,7 +26,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button"
+                android:id="@+id/calcBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -42,8 +41,9 @@
                 android:ems="2"
                 android:gravity="center_horizontal"
                 android:inputType="number"
-                android:text="@string/default_number"
-                android:textSize="@dimen/feels_like_text_size" />
+                android:text="1"
+                android:textSize="@dimen/feels_like_text_size"
+                tools:ignore="HardcodedText" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/textView"
@@ -55,6 +55,18 @@
                 tools:text="0" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/startServiceBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/start_service" />
+
+        <Button
+            android:id="@+id/stopServiceBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stop_service" />
 
     </LinearLayout>
 

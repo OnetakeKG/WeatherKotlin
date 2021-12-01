@@ -1,6 +1,7 @@
+<?xml version="1.0"?>
 <resources>
 
-    <string name="app_name">GBKotlinWithMvvm</string>
+    <string name="app_name">A2KotlinWithMVVM</string>
 
     <string name="temperature_label">Температура</string>
 
@@ -8,20 +9,26 @@
 
     <string name="city_coordinates">lt/ln: %s, %s"</string>
 
-    <string name="change_cities_list">Поменять список</string>
+    <string name="change_list_of_cities">Изменить список городов</string>
 
     <string name="error">Ошибка!</string>
 
     <string name="reload">Обновить</string>
 
-    <string name="error_happened">Произошла ошибка</string>
+    <string name="fab_switch_description">Переключить язык</string>
+
+    <string name="calculate">Расчет</string>
 
     <string name="threads">Потоки</string>
 
-    <string name="calculate">Расчёт</string>
+    <string name="start_service">Start service</string>
 
-    <string name="default_number">1</string>
+    <string name="stop_service">Stop service</string>
 
-    <string name="in_main_thread">В главном потоке</string>
+    <string name="history">История</string>
+
+    <string name="content_provider">Content provider</string>
+
+    <string name="need_permissions_to_read_contacts">Необходимо предоставить разрешение для чтения контактов</string>
 
 </resources>
