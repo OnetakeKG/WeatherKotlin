@@ -7,26 +7,25 @@ import android.os.IBinder
 
 class UsualService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        //... поток UI!
-
+        //.. наш код сервиса. Здесь поток UI!
         Thread {
-            //...
+            ///...
+            stopSelf()
         }.start()
-
         return START_NOT_STICKY
     }
 
-    override fun onBind(p0: Intent?): IBinder? = null
+    override fun onBind(intent: Intent?): IBinder? = null
 
     companion object {
         fun start(context: Context) {
             val usualServiceIntent = Intent(context, UsualService::class.java)
-            context.startService(usualServiceIntent)
+            context?.startService(usualServiceIntent)
         }
 
         fun stop(context: Context) {
             val usualServiceIntent = Intent(context, UsualService::class.java)
-            context.stopService(usualServiceIntent)
+            context?.stopService(usualServiceIntent)
         }
     }
 }

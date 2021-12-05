@@ -4,6 +4,7 @@ import net.nov.weatherkotlin.repository.Repository
 import net.nov.weatherkotlin.repository.RepositoryImpl
 import net.nov.weatherkotlin.ui.MainViewModel
 import net.nov.weatherkotlin.ui.details.DetailsViewModel
+import net.nov.weatherkotlin.ui.historyFragment.HistoryViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import java.lang.reflect.Array.get
@@ -14,4 +15,5 @@ val appModule = module {
     //View models
     viewModel { MainViewModel(get()) }
     viewModel { DetailsViewModel(get()) }
+    viewModel { HistoryViewModel(get()) }
 }

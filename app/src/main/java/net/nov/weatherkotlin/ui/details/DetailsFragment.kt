@@ -1,36 +1,34 @@
-package net.nov.weatherkotlin.ui.details
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import coil.load
-import coil.transform.GrayscaleTransformation
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.details_fragment.*
 import net.nov.weatherkotlin.AppState
 import net.nov.weatherkotlin.R
 import net.nov.weatherkotlin.databinding.DetailsFragmentBinding
 import net.nov.weatherkotlin.entities.Weather
+import net.nov.weatherkotlin.ui.details.DetailsViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class DetailsFragment : Fragment() {
-    private var _binding: DetailsFragmentBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: DetailsFragmentBinding
     private val viewModel: DetailsViewModel by viewModel()
+    private lateinit var weatherBundle: Weather
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DetailsFragmentBinding.inflate(inflater, container, false)
+        binding = DetailsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        arguments?.getParcelable<Weather>(BUNDLE_EXTRA)?.let {
+        val weather = arguments?.getParcelable<Weather>(BUNDLE_EXTRA)
+        weather?.let {
             with(binding) {
                 cityName.text = it.city.city
                 cityCoordinates.text = String.format(
@@ -41,39 +39,57 @@ class DetailsFragment : Fragment() {
                 viewModel.liveDataToObserve.observe(viewLifecycleOwner, { appState ->
                     when (appState) {
                         is AppState.Error -> {
-                            mainView.visibility = View.INVISIBLE
+                            //...
                             loadingLayout.visibility = View.GONE
-                            errorTV.visibility = View.VISIBLE
                         }
-                        AppState.Loading -> {
-                            mainView.visibility = View.INVISIBLE
-                            binding.loadingLayout.visibility = View.VISIBLE
-                        }
+                        AppState.Loading -> binding.loadingLayout.visibility = View.VISIBLE
                         is AppState.Success -> {
                             loadingLayout.visibility = View.GONE
-                            mainView.visibility = View.VISIBLE
-                            temperatureValue.text = appState.weatherData[0].temperature.toString()
-                            feelsLikeValue.text = appState.weatherData[0].feelsLike.toString()
+                            temperatureValue.text = appState.weatherData[0].temperature?.toString()
+                            feelsLikeValue.text = appState.weatherData[0].feelsLike?.toString()
                             weatherCondition.text = appState.weatherData[0].condition
                         }
                     }
                 })
-                viewModel.loadData(it.city.lat, it.city.lon)
+                viewModel.loadData(it.city)
+                Picasso
+                    .get()
+                    .load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+                    .fit()
+                    .into(imageView)
+                /*WeatherRepo.api.getWeather(it.city.lat, it.city.lon)
+                    .enqueue(object : Callback<WeatherDTO> {
+                        override fun onResponse(
+                            call: Call<WeatherDTO>,
+                            response: Response<WeatherDTO>
+                        ) {
+                            if(response.isSuccessful) {
+                                val weather = response.body()?.let {
+                                    Weather(
+                                        temperature = it.fact.temp,
+                                        feelsLike = it.fact.feels_like,
+                                        condition = it.fact.condition
+                                    )
+                                } ?: Weather()
+                                loadingLayout.visibility = View.GONE
+                                temperatureValue.text = weather.temperature?.toString()
+                                feelsLikeValue.text = weather.feelsLike?.toString()
+                                weatherCondition.text = weather.condition
+                            }
+                        }
+
+                        override fun onFailure(call: Call<WeatherDTO>, t: Throwable) {
+                           //Запрос не прошел, или что-то другое на вашей стороне
+                        }
+                    })*/
             }
         }
 
-        binding.imageView.load("https://freepngimg.com/thumb/city/36275-3-city-hd.png") {
-            crossfade(true)
-            transformations(GrayscaleTransformation())
-        }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {
+        private const val api_key = "7a436743-4c9e-415e-9edc-cc6b53f7c987"
         const val BUNDLE_EXTRA = "weather"
 
         fun newInstance(bundle: Bundle): DetailsFragment {

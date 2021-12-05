@@ -12,7 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.nov.weatherkotlin.R
 
-class MyForegroundService : Service(), CoroutineScope by MainScope() {
+class MyForegroundService : Service() {
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
@@ -34,24 +34,10 @@ class MyForegroundService : Service(), CoroutineScope by MainScope() {
             .build()
 
         startForeground(12345, notification)
-
-        launch {
-            delay(300)
-            sendMyBroadcast()
-        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-
-
-        return START_NOT_STICKY
-    }
-
-    private fun sendMyBroadcast() {
-        val broadcastIntent = Intent()
-        broadcastIntent.putExtra(INTENT_SERVICE_DATA, true)
-        broadcastIntent.action = INTENT_ACTION_KEY
-        sendBroadcast(broadcastIntent)
+        return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -66,9 +52,6 @@ class MyForegroundService : Service(), CoroutineScope by MainScope() {
     }
 
     companion object {
-        const val INTENT_ACTION_KEY = "com.example.a2kotlinwithmvvm.SERVICE_FINISHED_EVENT"
-        const val INTENT_SERVICE_DATA = "INTENT_SERVICE_DATA"
-
         fun start(context: Context) {
             val usualServiceIntent = Intent(context, MyForegroundService::class.java)
             context.startService(usualServiceIntent)
