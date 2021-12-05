@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
+import com.example.a2kotlinwithmvvm.R
 import net.nov.weatherkotlin.ui.MainFragment
+import net.nov.weatherkotlin.ui.MapsFragment
 import net.nov.weatherkotlin.ui.historyFragment.HistoryFragment
 import net.nov.weatherkotlin.ui.threads.ThreadsFragment
 
@@ -39,7 +41,11 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.menu_contacts -> {
-                openFragment(ContactsFragment.newInstance())
+                openFragment(MapsFragment.newInstance())
+                true
+            }
+            R.id.menu_google_maps -> {
+                openFragment(MapsFragment.newInstance())
                 true
             }
             else -> super.onOptionsItemSelected(item)

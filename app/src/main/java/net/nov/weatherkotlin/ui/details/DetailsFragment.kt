@@ -14,8 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailsFragment : Fragment() {
     private lateinit var binding: DetailsFragmentBinding
-//    private val viewModel: DetailsViewModel by viewModel()
-    private val viewModel by viewModel<DetailsViewModel>()
+    private val viewModel: DetailsViewModel by viewModel()
     private lateinit var weatherBundle: Weather
 
     override fun onCreateView(

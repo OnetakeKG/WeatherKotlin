@@ -13,11 +13,3 @@ interface WeatherAPI {
         @Query("lon") lon: Double
     ) : retrofit2.Call<WeatherDTO>
 }
-
-interface WeatherAPI {
-    @GET("informers")
-    fun getWeather(
-        @Query("lat") lat: Double,
-        @Query("lon") lon: Double
-    ) : retrofit2.Call<WeatherDTO>
-}

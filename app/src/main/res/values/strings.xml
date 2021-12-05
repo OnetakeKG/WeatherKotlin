@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <resources>
 
+    <string name="google_maps_key" translatable="false">AIzaSyD88CadTAyCvh6Dg1lPq4usnvQtUwiAUHw</string>
+
     <string name="app_name">A2KotlinWithMVVM</string>
 
     <string name="temperature_label">Температура</string>
@@ -14,6 +16,8 @@
     <string name="error">Ошибка!</string>
 
     <string name="reload">Обновить</string>
+
+    <string name="start_marker">Старт</string>
 
     <string name="fab_switch_description">Переключить язык</string>
 
@@ -30,5 +34,47 @@
     <string name="content_provider">Content provider</string>
 
     <string name="need_permissions_to_read_contacts">Необходимо предоставить разрешение для чтения контактов</string>
+
+    <string name="dialog_button_close">Закрыть</string>
+
+    <string name="dialog_title_no_gps">Доступ к геолокации закрыт</string>
+
+    <string name="dialog_message_no_gps">Разрешите доступ к геолокации, если хотите узнать погоду текущего места</string>
+
+    <string name="dialog_title_gps_turned_off">GPS отключён</string>
+
+    <string name="dialog_message_last_location_unknown">Местонахождение неизвестно. Включите GPS, если хотите получить погоду по текущему адресу</string>
+
+    <string name="dialog_message_last_known_location">Показана последняя известная локация. Включите GPS, если хотите обновить местонахождение</string>
+
+    <string name="dialog_rationale_title">Доступ к геолокации</string>
+
+    <string name="dialog_rationale_meaasge">Объяснение</string>
+
+    <string name="dialog_rationale_give_access">Предоставить доступ</string>
+
+    <string name="dialog_rationale_decline">Не надо</string>
+
+    <string name="dialog_address_title">Ваш адрес</string>
+
+    <string name="dialog_address_get_weather">Узнать погоду</string>
+
+    <string name="looks_like_location_disabled">Возможно, выключена функция определения местоположения</string>
+
+    <string name="map">Карта</string>
+
+    <string name="map_mode">Режим карты</string>
+
+    <string name="normal">Нормальный</string>
+
+    <string name="satellites">Спутники</string>
+
+    <string name="terrain">Схема</string>
+
+    <string name="traffic">Трафик</string>
+
+    <string name="enter_query">Введите запрос</string>
+
+    <string name="search">Поиск</string>
 
 </resources>

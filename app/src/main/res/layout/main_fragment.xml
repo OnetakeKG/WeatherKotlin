@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -27,6 +28,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:maxImageSize="57dp"
         app:tint="@null" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/mainFragmentFABLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:src="@drawable/ic_earth"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toTopOf="@+id/mainFragmentFAB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="57dp" />
 
 
 
